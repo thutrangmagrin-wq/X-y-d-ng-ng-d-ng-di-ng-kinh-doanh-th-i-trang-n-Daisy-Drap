@@ -1,0 +1,11 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore system folders
+.git/
+.expo/
+.kiro/
+
+# Ignore large/unnecessary files
+*.log
+*.lock
