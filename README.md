@@ -76,8 +76,7 @@ Video demo này trình bày các tính năng chính của ứng dụng bao gồm
 ---
 
 ## LINK ONLINE ĐÃ DEPLOY
-
-Ứng dụng DaisyDrape hiện chưa được deploy lên server online. Tuy nhiên, ứng dụng có thể được chạy trên Expo Go bằng cách quét QR code từ lệnh npm start. Để deploy ứng dụng lên production, có thể sử dụng các dịch vụ như Expo Application Services (EAS) hoặc build APK/IPA để phân phối trên Google Play Store hoặc Apple App Store. Hiện tại, ứng dụng chỉ có thể chạy trên môi trường phát triển cục bộ hoặc thông qua Expo Go.
+https://expo.dev/accounts/daisydrape/projects/DaisyDrape/builds/0fb812a8-cf8f-4d41-8e8c-ac4399c33e79
 
 ---
 
