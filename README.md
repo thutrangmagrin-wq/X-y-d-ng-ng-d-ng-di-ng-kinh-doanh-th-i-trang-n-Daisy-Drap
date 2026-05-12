@@ -66,6 +66,14 @@ Trang hồ sơ cá nhân cho phép người dùng xem và chỉnh sửa avatar, 
 Admin Dashboard bao gồm nhiều tab khác nhau. Tab thống kê hiển thị tổng số đơn hàng, tổng doanh thu, số khách hàng mới, sản phẩm bán chạy nhất, và biểu đồ doanh số. Tab đơn hàng hiển thị danh sách tất cả đơn hàng, cho phép lọc theo trạng thái, và hiển thị thông tin mã đơn, khách hàng, ngày đặt, trạng thái, và tổng tiền. Tab sản phẩm hiển thị danh sách sản phẩm, số lượng bán, rating trung bình, cho phép tìm kiếm và sắp xếp. Tab người dùng hiển thị danh sách khách hàng với thông tin tên, email, số điện thoại, ngày tạo tài khoản, số đơn hàng, và tổng tiền chi tiêu.
 
 ---
+## CÁC TÍNH NĂNG NÂNG CAO VÀ ĐIỂM CỘNG
+
+### Tính Năng Nâng Cao Được Triển Khai
+
+Ứng dụng DaisyDrape được phát triển với nhiều tính năng nâng cao vượt quá yêu cầu cơ bản, giúp nâng cao điểm số của dự án. Thứ nhất, ứng dụng triển khai Admin Dashboard hoàn chỉnh với các tab quản lý toàn diện bao gồm thống kê doanh số, quản lý đơn hàng, quản lý sản phẩm, và quản lý người dùng. Điều này cho phép quản trị viên có cái nhìn tổng quan về hoạt động kinh doanh và quản lý hiệu quả.
+
+Thứ hai, ứng dụng sử dụng Context API để quản lý trạng thái toàn cục, giúp chia sẻ dữ liệu giữa các component mà không cần prop drilling. Điều này cải thiện hiệu suất và khả năng bảo trì của code.
+Thứ ba, Đã deploy.
 
 ## LINK VIDEO DEMO
 
