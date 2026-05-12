@@ -39,6 +39,7 @@ export default function PaymentMethodsScreen({ navigation }) {
 
   const loadUserData = useCallback(async () => {
     const data = await getUser();
+    console.log('💳 PaymentMethodsScreen - Loaded payment methods:', data?.paymentMethods?.length || 0);
     setUserData(data);
     setPaymentMethods(data?.paymentMethods || []);
   }, []);
@@ -125,7 +126,9 @@ export default function PaymentMethodsScreen({ navigation }) {
     }
 
     const updated = { ...userData, paymentMethods: updatedMethods };
-    await saveUser(updated);
+    console.log('💾 Saving payment methods:', updatedMethods.length);
+    const saveResult = await saveUser(updated);
+    console.log('✅ Payment method save result:', saveResult);
     setUserData(updated);
     setPaymentMethods(updatedMethods);
     setModalVisible(false);

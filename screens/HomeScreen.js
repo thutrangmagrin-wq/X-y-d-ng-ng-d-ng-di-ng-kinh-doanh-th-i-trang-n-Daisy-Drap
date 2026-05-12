@@ -16,7 +16,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS, RADIUS, SHADOW } from '../constants/theme';
-import { getCart, saveCart, getWishlist, saveWishlist, getProducts, getCollections } from '../services/storageService';
+import { getCart, saveCart, getWishlist, saveWishlist, getProducts, getCollections, getUser } from '../services/storageService';
 import { useAppConfig } from '../context/AppConfigContext';
 
 const formatPrice = (price) =>
@@ -31,6 +31,7 @@ export default function HomeScreen({ user, navigation }) {
   const [search, setSearch] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const [reviews, setReviews] = useState([]);
   const userId = user?.id || 'guest';
 
   const bannerImages = [
@@ -57,10 +58,12 @@ export default function HomeScreen({ user, navigation }) {
     const c = await getCart(userId);
     const w = await getWishlist(userId);
     const col = await getCollections();
+    const userData = await getUser();
     setProducts(p);
     setCart(c);
     setWishlist(w);
     setCollections(col);
+    setReviews(Array.isArray(userData?.reviews) ? userData.reviews : []);
   }, [userId]);
 
   useEffect(() => {
@@ -119,44 +122,60 @@ export default function HomeScreen({ user, navigation }) {
     p.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const renderProductCard = ({ item }) => (
-    <TouchableOpacity 
-      style={[styles.productCard, { backgroundColor: '#FEFDFB', borderColor: '#D9CFC5' }]}
-      onPress={() => handleViewProduct(item)}
-      activeOpacity={0.7}
-    >
-      <View style={styles.productImageContainer}>
-        <Image source={{ uri: item.image }} style={styles.productImage} resizeMode="cover" />
-        <TouchableOpacity
-          style={styles.wishBtn}
-          onPress={(e) => {
-            e.stopPropagation();
-            handleToggleWishlist(item);
-          }}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.wishIcon}>{wishlist.some((w) => w.id === item.id) ? '❤️' : '🤍'}</Text>
-        </TouchableOpacity>
-      </View>
+  const renderProductCard = ({ item }) => {
+    const safeReviews = Array.isArray(reviews) ? reviews : [];
+    const productReviews = safeReviews.filter((r) => r && r.productId === item.id);
+    const avgRating = productReviews.length > 0
+      ? (productReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / productReviews.length).toFixed(1)
+      : 'Chưa có';
 
-      <View style={styles.productInfo}>
-        <Text style={styles.productName} numberOfLines={2}>{item.name}</Text>
-        <Text style={[styles.productPrice]}>
-          {formatPrice(item.price)}
-        </Text>
-        <TouchableOpacity
-          style={[styles.addToCartBtn]}
-          onPress={(e) => {
-            e.stopPropagation();
-            handleAddToCart(item);
-          }}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.addToCartBtnText}>Thêm vào giỏ</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
+    return (
+      <TouchableOpacity 
+        style={[styles.productCard, { backgroundColor: '#FEFDFB', borderColor: '#D9CFC5' }]}
+        onPress={() => handleViewProduct(item)}
+        activeOpacity={0.7}
+      >
+        <View style={styles.productImageContainer}>
+          <Image source={{ uri: item.image }} style={styles.productImage} resizeMode="cover" />
+          <TouchableOpacity
+            style={styles.wishBtn}
+            onPress={(e) => {
+              e.stopPropagation();
+              handleToggleWishlist(item);
+            }}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.wishIcon}>{wishlist.some((w) => w.id === item.id) ? '❤️' : '🤍'}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.productInfo}>
+          <Text style={styles.productName} numberOfLines={2}>{item.name}</Text>
+          
+          {/* Rating and review count */}
+          <View style={styles.ratingRow}>
+            <Text style={styles.star}>⭐</Text>
+            <Text style={styles.ratingText}>{avgRating}</Text>
+            <Text style={styles.reviewCount}>({productReviews.length})</Text>
+          </View>
+
+          <Text style={[styles.productPrice]}>
+            {formatPrice(item.price)}
+          </Text>
+          <TouchableOpacity
+            style={[styles.addToCartBtn]}
+            onPress={(e) => {
+              e.stopPropagation();
+              handleAddToCart(item);
+            }}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.addToCartBtnText}>Thêm vào giỏ</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   const renderCollectionCard = ({ item }) => (
     <TouchableOpacity 
@@ -536,6 +555,24 @@ const styles = StyleSheet.create({
     color: '#8B7D72',
     lineHeight: 14,
     marginBottom: 6,
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+    gap: 4,
+  },
+  star: {
+    fontSize: 11,
+  },
+  ratingText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#B8956A',
+  },
+  reviewCount: {
+    fontSize: 10,
+    color: '#A89080',
   },
   productPrice: {
     fontSize: 13,

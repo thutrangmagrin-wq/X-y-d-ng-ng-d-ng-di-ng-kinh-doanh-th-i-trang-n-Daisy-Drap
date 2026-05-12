@@ -16,7 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { COLORS, RADIUS, SHADOW } from '../constants/theme';
 import { useAppConfig } from '../context/AppConfigContext';
-import { getUser, getOrders } from '../services/storageService';
+import { getUser, getOrders, saveUser } from '../services/storageService';
 
 const formatPrice = (price) =>
   price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
@@ -50,15 +50,19 @@ export default function ProfileScreen({ onLogout, navigation }) {
   const [expandedItems, setExpandedItems] = useState({});
   const [ratings, setRatings] = useState({});
   const [activeTab, setActiveTab] = useState('info'); // info, addresses, payments, orders
-  const [paymentMethods, setPaymentMethods] = useState([
-    { id: 1, type: 'credit_card', name: 'Visa', last4: '4242', isDefault: true },
-    { id: 2, type: 'debit_card', name: 'Mastercard', last4: '5555', isDefault: false },
-  ]);
   const [avatarUri, setAvatarUri] = useState(null);
 
   const loadUserData = useCallback(async () => {
+    console.log('📝 Loading user data in ProfileScreen');
     const data = await getUser();
+    console.log('👤 User data loaded:', data?.email);
+    console.log('📍 Addresses:', data?.addresses?.length || 0);
+    console.log('💳 Payment methods:', data?.paymentMethods?.length || 0);
+    console.log('📝 Reviews:', data?.reviews?.length || 0);
     setUserData(data);
+    if (data?.avatarUri) {
+      setAvatarUri(data.avatarUri);
+    }
     if (data?.id) {
       const userOrders = await getOrders(data.id);
       setOrders(userOrders);
@@ -104,11 +108,7 @@ export default function ProfileScreen({ onLogout, navigation }) {
       Alert.alert('Lỗi', 'Vui lòng chọn số sao');
       return;
     }
-    Alert.alert('Thành công', `Cảm ơn bạn đã đánh giá ${product.name}`);
-    setRatings(prev => ({
-      ...prev,
-      [product.id]: 0
-    }));
+    navigation?.navigate('Rating', { product, orderId: product.orderId });
   };
 
   const handlePickAvatar = async () => {
@@ -122,13 +122,18 @@ export default function ProfileScreen({ onLogout, navigation }) {
 
       if (!result.canceled) {
         setAvatarUri(result.assets[0].uri);
+        // Lưu avatar vào userData
+        const updatedUser = { ...userData, avatarUri: result.assets[0].uri };
+        await saveUser(updatedUser);
+        setUserData(updatedUser);
       }
     } catch (error) {
       Alert.alert('Lỗi', 'Không thể chọn ảnh');
     }
   };
 
-  const renderOrder = ({ item }) => (
+  const renderOrder = ({ item }) => {
+    return (
     <View style={[styles.orderCard, { backgroundColor: COLORS.surface }]}>
       <View style={styles.orderHeader}>
         <View>
@@ -142,7 +147,13 @@ export default function ProfileScreen({ onLogout, navigation }) {
         </View>
       </View>
       <View style={styles.orderItems}>
-        {item.items?.map((product, idx) => (
+        {item.items?.map((product, idx) => {
+          // Ensure reviews is an array
+          const reviewsArray = Array.isArray(userData?.reviews) ? userData.reviews : [];
+          // Check xem product này đã được review hay chưa
+          const isReviewed = reviewsArray.some(r => r.productId === product.id);
+          
+          return (
           <View key={idx}>
             <TouchableOpacity 
               style={styles.orderItemRow}
@@ -165,24 +176,34 @@ export default function ProfileScreen({ onLogout, navigation }) {
                   {[1, 2, 3, 4, 5].map((star) => (
                     <TouchableOpacity
                       key={star}
-                      onPress={() => handleRating(product.id, star)}
+                      onPress={() => !isReviewed && handleRating(product.id, star)}
+                      disabled={isReviewed}
                     >
-                      <Text style={styles.star}>
+                      <Text style={[styles.star, isReviewed && { opacity: 0.5 }]}>
                         {ratings[product.id] >= star ? '⭐' : '☆'}
                       </Text>
                     </TouchableOpacity>
                   ))}
                 </View>
-                <TouchableOpacity
-                  style={[styles.reviewBtn, { backgroundColor: config.primaryColor }]}
-                  onPress={() => handleSubmitReview(product)}
-                >
-                  <Text style={styles.reviewBtnText}>Gửi đánh giá</Text>
-                </TouchableOpacity>
+                {ratings[product.id] > 0 && !isReviewed && (
+                  <TouchableOpacity
+                    style={[styles.reviewBtn, { backgroundColor: config.primaryColor }]}
+                    onPress={() => handleSubmitReview(product)}
+                  >
+                    <Text style={styles.reviewBtnText}>Gửi đánh giá</Text>
+                  </TouchableOpacity>
+                )}
+                {isReviewed && (
+                  <View style={[styles.reviewBtn, { backgroundColor: config.primaryColor + '80' }]}>
+                    <Ionicons name="checkmark-circle" size={16} color="#fff" />
+                    <Text style={styles.reviewBtnText}>✅ Đã gửi đánh giá</Text>
+                  </View>
+                )}
               </View>
             )}
           </View>
-        ))}
+          );
+        })}
       </View>
       <View style={styles.orderFooter}>
         <Text style={[styles.orderTotal, { color: config.primaryColor }]}>
@@ -190,7 +211,8 @@ export default function ProfileScreen({ onLogout, navigation }) {
         </Text>
       </View>
     </View>
-  );
+    );
+  };
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: config.backgroundColor }]} edges={['top']}>
@@ -358,7 +380,7 @@ export default function ProfileScreen({ onLogout, navigation }) {
                 {(userData?.addresses || []).length === 0 ? (
                   <Text style={styles.emptyText}>Chưa có địa chỉ nào</Text>
                 ) : (
-                  (userData?.addresses || []).slice(0, 3).map((addr) => (
+                  (userData?.addresses || []).map((addr) => (
                     <View key={addr.id} style={[styles.addressCard, { backgroundColor: COLORS.surface }]}>
                       <View style={styles.addressIcon}>
                         <Ionicons name="location" size={20} color={config.primaryColor} />
@@ -380,16 +402,16 @@ export default function ProfileScreen({ onLogout, navigation }) {
                   <Text style={styles.sectionTitle}>💳 Phương thức thanh toán</Text>
                   <TouchableOpacity
                     style={[styles.viewAllBtn, { backgroundColor: config.primaryColor }]}
-                    onPress={() => navigation?.navigate('AddPayment')}
+                    onPress={() => navigation?.navigate('PaymentMethods')}
                   >
                     <Ionicons name="add" size={16} color="#fff" />
                     <Text style={styles.viewAllBtnText}>Thêm</Text>
                   </TouchableOpacity>
                 </View>
-                {paymentMethods.length === 0 ? (
+                {(userData?.paymentMethods || []).length === 0 ? (
                   <Text style={styles.emptyText}>Chưa có phương thức thanh toán nào</Text>
                 ) : (
-                  paymentMethods.map((method) => (
+                  (userData?.paymentMethods || []).map((method) => (
                     <View key={method.id} style={[styles.paymentCard, { backgroundColor: COLORS.surface }]}>
                       <View style={styles.paymentIcon}>
                         <Ionicons 
@@ -399,8 +421,8 @@ export default function ProfileScreen({ onLogout, navigation }) {
                         />
                       </View>
                       <View style={styles.paymentContent}>
-                        <Text style={styles.paymentName}>{method.name}</Text>
-                        <Text style={styles.paymentNumber}>•••• •••• •••• {method.last4}</Text>
+                        <Text style={styles.paymentName}>{method.cardName}</Text>
+                        <Text style={styles.paymentNumber}>•••• •••• •••• {method.cardNumber?.slice(-4)}</Text>
                         {method.isDefault && (
                           <View style={[styles.defaultBadge, { backgroundColor: config.primaryColor + '20' }]}>
                             <Text style={[styles.defaultBadgeText, { color: config.primaryColor }]}>Mặc định</Text>
@@ -740,6 +762,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: RADIUS.sm,
     alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 6,
   },
   reviewBtnText: {
     color: '#fff',

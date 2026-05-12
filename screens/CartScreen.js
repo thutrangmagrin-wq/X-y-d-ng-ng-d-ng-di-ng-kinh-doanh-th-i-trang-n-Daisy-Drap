@@ -90,30 +90,53 @@ export default function CartScreen({ user, navigation }) {
   const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   const renderItem = ({ item }) => (
-    <View style={[styles.card, { backgroundColor: COLORS.surface }]}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
-      </View>
-      <View style={styles.info}>
-        <Text style={styles.name} numberOfLines={2}>{item.name}</Text>
-        <Text style={[styles.price, { color: config.primaryColor }]}>{formatPrice(item.price)}</Text>
-        <View style={styles.qtyRow}>
-          <TouchableOpacity style={styles.qtyBtn} onPress={() => handleDecrease(item.cartKey)}>
-            <Text style={styles.qtyBtnText}>−</Text>
-          </TouchableOpacity>
-          <Text style={styles.qty}>{item.quantity}</Text>
-          <TouchableOpacity style={styles.qtyBtn} onPress={() => handleIncrease(item.cartKey)}>
-            <Text style={styles.qtyBtnText}>+</Text>
-          </TouchableOpacity>
-          <Text style={[styles.subtotal, { color: config.primaryColor }]}>
-            {formatPrice(item.price * item.quantity)}
-          </Text>
-          <TouchableOpacity onPress={() => handleRemove(item.cartKey)} style={styles.deleteBtn}>
-            <Text style={styles.deleteIcon}>🗑️</Text>
-          </TouchableOpacity>
+    <TouchableOpacity 
+      onPress={() => navigation?.navigate('ProductDetail', { product: item })}
+      activeOpacity={0.8}
+    >
+      <View style={[styles.card, { backgroundColor: COLORS.surface }]}>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
+        </View>
+        <View style={styles.info}>
+          <Text style={styles.name} numberOfLines={2}>{item.name}</Text>
+          <Text style={[styles.price, { color: config.primaryColor }]}>{formatPrice(item.price)}</Text>
+          <View style={styles.qtyRow}>
+            <TouchableOpacity 
+              style={styles.qtyBtn} 
+              onPress={(e) => {
+                e.stopPropagation();
+                handleDecrease(item.cartKey);
+              }}
+            >
+              <Text style={styles.qtyBtnText}>−</Text>
+            </TouchableOpacity>
+            <Text style={styles.qty}>{item.quantity}</Text>
+            <TouchableOpacity 
+              style={styles.qtyBtn} 
+              onPress={(e) => {
+                e.stopPropagation();
+                handleIncrease(item.cartKey);
+              }}
+            >
+              <Text style={styles.qtyBtnText}>+</Text>
+            </TouchableOpacity>
+            <Text style={[styles.subtotal, { color: config.primaryColor }]}>
+              {formatPrice(item.price * item.quantity)}
+            </Text>
+            <TouchableOpacity 
+              onPress={(e) => {
+                e.stopPropagation();
+                handleRemove(item.cartKey);
+              }} 
+              style={styles.deleteBtn}
+            >
+              <Text style={styles.deleteIcon}>🗑️</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

@@ -10,10 +10,11 @@ import {
   FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, RADIUS, SHADOW } from '../constants/theme';
 import { useAppConfig } from '../context/AppConfigContext';
-import { getCart, saveCart, getWishlist, saveWishlist } from '../services/storageService';
+import { getCart, saveCart, getWishlist, saveWishlist, getUser } from '../services/storageService';
 
 const formatPrice = (price) =>
   price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
@@ -24,29 +25,7 @@ export default function ProductDetailScreen({ route, navigation, user }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const [reviews, setReviews] = useState([
-    {
-      id: '1',
-      userName: 'Nguyễn Văn A',
-      rating: 5,
-      comment: 'Sản phẩm rất đẹp, chất lượng tốt, giao hàng nhanh!',
-      date: '2 ngày trước',
-    },
-    {
-      id: '2',
-      userName: 'Trần Thị B',
-      rating: 4,
-      comment: 'Đẹp lắm, nhưng hơi hẹp một chút',
-      date: '1 tuần trước',
-    },
-    {
-      id: '3',
-      userName: 'Lê Văn C',
-      rating: 5,
-      comment: 'Tuyệt vời! Sẽ mua lại',
-      date: '2 tuần trước',
-    },
-  ]);
+  const [reviews, setReviews] = useState([]);
   const userId = user?.id || 'guest';
 
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -56,9 +35,41 @@ export default function ProductDetailScreen({ route, navigation, user }) {
     setWishlist(w);
   }, [userId]);
 
+  const loadReviews = useCallback(async () => {
+    try {
+      const userData = await getUser();
+      console.log('📝 userData.reviews type:', typeof userData?.reviews, 'is array:', Array.isArray(userData?.reviews));
+      
+      // Ensure reviews is always an array
+      let reviewsArray = [];
+      if (Array.isArray(userData?.reviews)) {
+        reviewsArray = userData.reviews;
+      } else if (userData?.reviews && typeof userData.reviews === 'object') {
+        // If it's an object, convert to array
+        console.log('⚠️ Converting object reviews to array');
+        reviewsArray = Object.values(userData.reviews);
+      }
+      
+      // Lọc đánh giá cho sản phẩm này
+      const productReviews = reviewsArray.filter(
+        (review) => review && review.productId === product.id
+      );
+      console.log(`📝 Loaded ${productReviews.length} reviews for product ${product.id}`);
+      setReviews(productReviews);
+    } catch (error) {
+      console.error('Error loading reviews:', error);
+      setReviews([]);
+    }
+  }, [product.id]);
+
   useEffect(() => {
     loadWishlist();
-  }, [loadWishlist]);
+    loadReviews();
+  }, [loadWishlist, loadReviews]);
+
+  useFocusEffect(useCallback(() => {
+    loadReviews();
+  }, [loadReviews]));
 
   const isInWishlist = wishlist.some((w) => w.id === product.id);
 
@@ -129,8 +140,12 @@ export default function ProductDetailScreen({ route, navigation, user }) {
 
           <View style={styles.ratingRow}>
             <Text style={styles.star}>⭐</Text>
-            <Text style={styles.rating}>{product.rating}</Text>
-            <Text style={styles.sold}> · {product.sold} bán</Text>
+            <Text style={styles.rating}>
+              {reviews.length > 0
+                ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+                : 'Chưa có'}
+            </Text>
+            <Text style={styles.sold}> · {reviews.length} đánh giá</Text>
           </View>
 
           <Text style={[styles.price, { color: config.primaryColor }]}>
@@ -203,7 +218,9 @@ export default function ProductDetailScreen({ route, navigation, user }) {
                   <View style={styles.reviewHeader}>
                     <View>
                       <Text style={styles.reviewName}>{item.userName}</Text>
-                      <Text style={styles.reviewDate}>{item.date}</Text>
+                      <Text style={styles.reviewDate}>
+                        {item.createdAt ? new Date(item.createdAt).toLocaleDateString('vi-VN') : item.date}
+                      </Text>
                     </View>
                     <View style={styles.reviewStars}>
                       {[...Array(5)].map((_, i) => (
@@ -213,7 +230,9 @@ export default function ProductDetailScreen({ route, navigation, user }) {
                       ))}
                     </View>
                   </View>
-                  <Text style={styles.reviewComment}>{item.comment}</Text>
+                  {item.comment && (
+                    <Text style={styles.reviewComment}>{item.comment}</Text>
+                  )}
                 </View>
               )}
               scrollEnabled={false}

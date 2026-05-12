@@ -31,6 +31,7 @@ export default function AddressesScreen({ navigation }) {
 
   const loadUserData = useCallback(async () => {
     const data = await getUser();
+    console.log('📍 AddressesScreen - Loaded addresses:', data?.addresses?.length || 0);
     setUserData(data);
     setAddresses(data?.addresses || []);
   }, []);
@@ -82,7 +83,9 @@ export default function AddressesScreen({ navigation }) {
     }
 
     const updated = { ...userData, addresses: updatedAddresses };
-    await saveUser(updated);
+    console.log('💾 Saving addresses:', updatedAddresses.length);
+    const saveResult = await saveUser(updated);
+    console.log('✅ Address save result:', saveResult);
     setUserData(updated);
     setAddresses(updatedAddresses);
     setModalVisible(false);

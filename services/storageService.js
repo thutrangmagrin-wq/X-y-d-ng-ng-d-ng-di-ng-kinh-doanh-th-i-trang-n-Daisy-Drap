@@ -33,8 +33,10 @@ const get = async (key, fallback = null) => {
 const set = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch (e) {
     console.error(`set(${key}) error:`, e);
+    return false;
   }
 };
 
@@ -59,7 +61,12 @@ export const saveWishlist = (wishlist, userId) => set(`WISHLIST_${userId}`, wish
 export const getUser = async () => {
   return get(KEYS.USER, null);
 };
-export const saveUser = (user) => set(KEYS.USER, user);
+export const saveUser = async (user) => {
+  console.log('💾 saveUser called with:', user?.email);
+  const result = await set(KEYS.USER, user);
+  console.log('✅ saveUser result:', result);
+  return result;
+};
 export const removeUser = () => remove(KEYS.USER);
 
 // ─── ORDERS (của từng user) ───────────────────────────────────────────────────
@@ -93,7 +100,7 @@ export const registerUser = async (user) => {
       createdAt: new Date().toLocaleString('vi-VN'), 
       status: 'active',
       role: 'customer',
-      reviews: {},
+      reviews: [],
       addresses: [],
       paymentMethods: [],
     };
@@ -131,7 +138,7 @@ export const loginUser = async (email, password) => {
         role: 'customer',
         createdAt: new Date().toLocaleString('vi-VN'),
         status: 'active',
-        reviews: {},
+        reviews: [],
         addresses: [],
         paymentMethods: [],
         isLocked: false,
@@ -150,7 +157,7 @@ export const loginUser = async (email, password) => {
         role: 'admin',
         createdAt: new Date().toLocaleString('vi-VN'),
         status: 'active',
-        reviews: {},
+        reviews: [],
         addresses: [],
         paymentMethods: [],
         isLocked: false,
@@ -178,7 +185,7 @@ export const loginUser = async (email, password) => {
         role: 'admin',
         createdAt: new Date().toLocaleString('vi-VN'),
         status: 'active',
-        reviews: {},
+        reviews: [],
         addresses: [],
         paymentMethods: [],
         isLocked: false,

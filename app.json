@@ -31,9 +31,7 @@
       }
     },
     "owner": "daisydrape",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+   "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/dbe372bd-c192-4ef5-8b65-e49ef61d329e"
     }

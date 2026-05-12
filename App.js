@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -20,6 +21,7 @@ import AddressesScreen from './screens/AddressesScreen';
 import OrdersHistoryScreen from './screens/OrdersHistoryScreen';
 import PaymentMethodsScreen from './screens/PaymentMethodsScreen';
 import ProductDetailScreen from './screens/ProductDetailScreen';
+import RatingScreen from './screens/RatingScreen';
 import AdminDashboardScreen from './screens/admin/AdminDashboardScreen';
 
 import { getUser } from './services/storageService';
@@ -76,6 +78,9 @@ const ProfileStack = ({ onLogout, navigation }) => (
     </Stack.Screen>
     <Stack.Screen name="OrdersHistory" options={{ headerShown: false }}>
       {(props) => <OrdersHistoryScreen navigation={props.navigation} />}
+    </Stack.Screen>
+    <Stack.Screen name="Rating" options={{ headerShown: false }}>
+      {(props) => <RatingScreen navigation={props.navigation} route={props.route} />}
     </Stack.Screen>
   </Stack.Navigator>
 );
@@ -140,6 +145,10 @@ export default function App() {
   useEffect(() => {
     const initApp = async () => {
       try {
+        // ⚠️ ONLY UNCOMMENT IF YOU WANT TO CLEAR ALL DATA (including products)
+        // await AsyncStorage.clear();
+        // console.log('✅ AsyncStorage cleared');
+        
         const u = await getUser();
         setUser(u);
       } catch (error) {

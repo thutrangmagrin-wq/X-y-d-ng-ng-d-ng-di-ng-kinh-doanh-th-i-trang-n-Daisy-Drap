@@ -61,35 +61,46 @@ export default function WishlistScreen({ user, navigation }) {
   );
 
   const renderItem = ({ item }) => (
-    <View style={[styles.card, { backgroundColor: COLORS.surface }]}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
-        <View style={[styles.badge, { backgroundColor: config.primaryColor }]}>
-          <Text style={styles.badgeText}>❤️</Text>
+    <TouchableOpacity 
+      onPress={() => navigation?.navigate('ProductDetail', { product: item })}
+      activeOpacity={0.8}
+    >
+      <View style={[styles.card, { backgroundColor: COLORS.surface }]}>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
+          <View style={[styles.badge, { backgroundColor: config.primaryColor }]}>
+            <Text style={styles.badgeText}>❤️</Text>
+          </View>
+        </View>
+        <View style={styles.info}>
+          <Text style={styles.name} numberOfLines={2}>{item.name}</Text>
+          <Text style={styles.category}>{item.category || 'Sản phẩm'}</Text>
+          <Text style={[styles.price, { color: config.primaryColor }]}>
+            {formatPrice(item.price)}
+          </Text>
+          <View style={styles.actions}>
+            <TouchableOpacity
+              style={[styles.cartBtn, { backgroundColor: config.primaryColor }]}
+              onPress={(e) => {
+                e.stopPropagation();
+                handleAddToCart(item);
+              }}
+            >
+              <Text style={styles.cartBtnText}>🛒 Thêm</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.removeBtn}
+              onPress={(e) => {
+                e.stopPropagation();
+                handleRemove(item.id);
+              }}
+            >
+              <Text style={styles.removeBtnText}>🗑️ Xóa</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-      <View style={styles.info}>
-        <Text style={styles.name} numberOfLines={2}>{item.name}</Text>
-        <Text style={styles.category}>{item.category || 'Sản phẩm'}</Text>
-        <Text style={[styles.price, { color: config.primaryColor }]}>
-          {formatPrice(item.price)}
-        </Text>
-        <View style={styles.actions}>
-          <TouchableOpacity
-            style={[styles.cartBtn, { backgroundColor: config.primaryColor }]}
-            onPress={() => handleAddToCart(item)}
-          >
-            <Text style={styles.cartBtnText}>🛒 Thêm</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.removeBtn}
-            onPress={() => handleRemove(item.id)}
-          >
-            <Text style={styles.removeBtnText}>🗑️ Xóa</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
