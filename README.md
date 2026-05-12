@@ -1,162 +1,96 @@
-# 🌼 DaisyDrape - Ứng dụng thời trang hiện đại
+# DaisyDrape - Ứng dụng thời trang hiện đại
 
 DaisyDrape là một ứng dụng di động thương mại điện tử được xây dựng bằng React Native và Expo, cung cấp trải nghiệm mua sắm thời trang sang trọng và tiện lợi.
 
-## ✨ Tính năng chính
+## Thông tin thành viên
+Thành viên 1:  Đỗ Quỳnh Thu Trang-23810310379
+Thành viên 2:  Nguyễn Thị Huệ Minh-23810310177
+## TÊN ĐỀ TÀI
 
-### 👥 Quản lý tài khoản
-- **Đăng ký & Đăng nhập**: Xác thực người dùng an toàn
-- **Hồ sơ cá nhân**: Quản lý thông tin tài khoản
-- **Avatar tùy chỉnh**: Upload ảnh đại diện từ thư viện
-- **Quản lý địa chỉ**: Thêm và quản lý nhiều địa chỉ giao hàng
-- **Phương thức thanh toán**: Lưu và quản lý thẻ thanh toán
+Ứng dụng thương mại điện tử thời trang DaisyDrape trên nền tảng React Native
 
-### 🛍️ Mua sắm
-- **Tìm kiếm sản phẩm**: Tìm kiếm nhanh chóng với kết quả tức thì
-- **Danh mục sản phẩm**: Duyệt theo bộ sưu tập
-- **Chi tiết sản phẩm**: Xem thông tin chi tiết, giá cả, và đánh giá
-- **Giỏ hàng**: Thêm/xóa sản phẩm, quản lý số lượng
-- **Yêu thích**: Lưu sản phẩm yêu thích để mua sau
+---
 
-### 💳 Thanh toán & Đơn hàng
-- **Checkout**: Quy trình thanh toán đơn giản
-- **Lịch sử đơn hàng**: Xem tất cả đơn hàng đã mua
-- **Trạng thái đơn hàng**: Theo dõi trạng thái giao hàng
-- **Đánh giá sản phẩm**: Để lại đánh giá 5 sao cho sản phẩm
+## PHÂN CÔNG NHIỆM VỤ CỤ THỂ
 
-### 🎨 Giao diện
-- **Banner Carousel**: Quảng cáo sản phẩm với ảnh tự động chuyển
-- **Galaxy Theme**: Thiết kế hiện đại với gradient tối trầm
-- **Responsive Design**: Tối ưu cho tất cả kích thước màn hình
-- **Dark Mode Support**: Hỗ trợ chế độ tối
+Công việc được phân chia cụ thể như sau:
 
-### 👨‍💼 Quản lý Admin
-- **Dashboard Admin**: Quản lý sản phẩm, đơn hàng, người dùng
-- **Quản lý sản phẩm**: Thêm, sửa, xóa sản phẩm
-- **Quản lý đơn hàng**: Xem và cập nhật trạng thái đơn hàng
-- **Thống kê**: Xem doanh số bán hàng
+**Thành viên 1** chịu trách nhiệm về kiến trúc tổng thể của ứng dụng, thiết lập dự án React Native, cấu hình Expo, và phát triển các màn hình chính như HomeScreen, ProductDetailScreen, và CartScreen. Thành viên này cũng quản lý Context API để lưu trữ trạng thái toàn cục của ứng dụng,hát triển giao diện người dùng, bao gồm thiết kế các component như BannerComponent, ProductCard, và các màn hình liên quan đến hồ sơ cá nhân, danh sách yêu thích, và thanh toán.tạo dữ liệu mẫu cho sản phẩm, viết các test case bằng Jest, và đảm bảo chất lượng của ứng dụng. Thành viên này cũng hỗ trợ các thành viên khác trong việc debug và tối ưu hóa hiệu suất.
 
-## 🛠️ Công nghệ sử dụng
+---
+**Thành viên 2**tập trung vào phát triển giao diện người dùng, bao gồm thiết kế các component như BannerComponent, ProductCard, và các màn hình liên quan đến hồ sơ cá nhân, danh sách yêu thích, và thanh toán. Thành viên này cũng chịu trách nhiệm về styling và tạo ra giao diện đẹp mắt, thân thiện với người dùng.
+phát triển Admin Dashboard với các tab thống kê, quản lý đơn hàng, quản lý sản phẩm, và quản lý người dùng. Thành viên này cũng xây dựng các công thức tính toán doanh số, biểu đồ thống kê, và các tính năng lọc, tìm kiếm cho admin, quản lý cơ chế lưu trữ dữ liệu bằng AsyncStorage, tạo dữ liệu mẫu cho sản phẩm, viết các test case bằng Jest, và đảm bảo chất lượng của ứng dụng. Thành viên này cũng hỗ trợ các thành viên khác trong việc debug và tối ưu hóa hiệu suất.
 
-- **React Native**: Framework phát triển ứng dụng di động
-- **Expo**: Nền tảng phát triển React Native
-- **React Navigation**: Điều hướng giữa các màn hình
-- **Expo Linear Gradient**: Tạo gradient đẹp
-- **Expo Image Picker**: Chọn ảnh từ thư viện
-- **Cloudinary**: Lưu trữ và quản lý ảnh trên cloud
-- **AsyncStorage**: Lưu trữ dữ liệu cục bộ
+---
+## GIỚI THIỆU WEBSITE/HỆ THỐNG
 
-## 📁 Cấu trúc dự án
+DaisyDrape là một ứng dụng di động thương mại điện tử chuyên về bán hàng thời trang. Ứng dụng được phát triển bằng React Native và Expo, cho phép người dùng duyệt, tìm kiếm, và mua sắm các sản phẩm thời trang một cách dễ dàng. Hệ thống bao gồm hai phần chính: giao diện người dùng thường dành cho khách hàng mua sắm, và bảng điều khiển quản lý dành cho quản trị viên. Người dùng có thể tạo tài khoản, duyệt sản phẩm, thêm vào giỏ hàng, quản lý danh sách yêu thích, thực hiện thanh toán, xem lịch sử đơn hàng, và để lại đánh giá cho sản phẩm. Admin có thể xem thống kê doanh số, quản lý đơn hàng, sản phẩm, và người dùng thông qua một bảng điều khiển toàn diện.
 
-```
-daisy-drape-app/
-├── screens/              # Các màn hình ứng dụng
-│   ├── HomeScreen.js
-│   ├── ProfileScreen.js
-│   ├── CartScreen.js
-│   ├── WishlistScreen.js
-│   ├── ProductDetailScreen.js
-│   ├── CheckoutScreen.js
-│   ├── LoginScreen.js
-│   └── admin/           # Màn hình admin
-├── components/          # Các component tái sử dụng
-├── services/            # Các dịch vụ (API, storage)
-├── context/             # React Context
-├── constants/           # Hằng số (theme, colors)
-├── data/                # Dữ liệu mẫu
-├── App.js              # Component chính
-└── package.json        # Dependencies
-```
+---
 
-## 🚀 Cài đặt & Chạy
 
-### Yêu cầu
-- Node.js (v14 hoặc cao hơn)
-- npm hoặc yarn
-- Expo CLI
+## CÔNG NGHỆ SỬ DỤNG
 
-### Bước 1: Clone dự án
-```bash
-git clone <repository-url>
-cd daisy-drape-app
-```
+Ứng dụng DaisyDrape được xây dựng trên nền tảng React Native phiên bản 0.81.5 với Expo phiên bản 54.0.34 làm nền tảng phát triển chính. React Navigation phiên bản 7.1.6 được sử dụng để quản lý điều hướng giữa các màn hình, bao gồm Bottom Tabs Navigation cho menu chính và Stack Navigation cho các màn hình chi tiết. AsyncStorage phiên bản 2.2.0 được sử dụng để lưu trữ tất cả dữ liệu cục bộ trên thiết bị người dùng. Expo Linear Gradient phiên bản 55.0.13 được sử dụng để tạo các gradient đẹp mắt trong giao diện. Expo Image Picker phiên bản 17.0.11 cho phép người dùng chọn ảnh từ thư viện thiết bị. Cloudinary được tích hợp để quản lý và lưu trữ ảnh sản phẩm. Jest phiên bản 29.7.0 được sử dụng làm testing framework để viết và chạy các test case. React Test Renderer phiên bản 19.1.0 được sử dụng để render component trong test. Babel được cấu hình để transpile code React Native thành JavaScript có thể chạy được.
 
-### Bước 2: Cài đặt dependencies
-```bash
-npm install
-# hoặc
-yarn install
-```
+---
 
-### Bước 3: Chạy ứng dụng
-```bash
-npm start
-# hoặc
-expo start
-```
+## HƯỚNG DẪN CÀI ĐẶT
 
-### Bước 4: Mở trên thiết bị
-- **iOS**: Nhấn `i` để mở trên iOS Simulator
-- **Android**: Nhấn `a` để mở trên Android Emulator
-- **Mobile**: Quét QR code bằng Expo Go app
+Để cài đặt dự án DaisyDrape, trước tiên cần đảm bảo hệ thống có Node.js phiên bản 16 trở lên, npm hoặc yarn, và Expo CLI được cài đặt. Bước đầu tiên là clone dự án từ repository bằng lệnh git clone, sau đó chuyển vào thư mục DaisyDrape. Tiếp theo, chạy lệnh npm install để cài đặt tất cả các dependencies được liệt kê trong file package.json. Quá trình cài đặt sẽ tải xuống tất cả các thư viện cần thiết bao gồm React Native, Expo, React Navigation, AsyncStorage, và các thư viện khác. Sau khi cài đặt hoàn tất, dự án sẽ sẵn sàng để chạy trên các nền tảng khác nhau.
 
-## 🎨 Giao diện & Thiết kế
+---
 
-### Màu sắc chính
-- **Primary**: `#B8956A` (Nâu)
-- **Secondary**: `#D4C4B0` (Beige)
-- **Background**: `#F5F1E8` (Kem)
-- **Dark**: `#1a1a2e` (Tối trầm)
+## HƯỚNG DẪN CHẠY PROJECT
 
-### Font & Typography
-- **Tiêu đề**: Bold, 18-28px
-- **Nội dung**: Regular, 12-16px
-- **Nhấn mạnh**: Semi-bold, 13-14px
+Để chạy ứng dụng DaisyDrape, sử dụng lệnh npm start để khởi động Expo development server. Lệnh này sẽ hiển thị một QR code mà bạn có thể quét bằng ứng dụng Expo Go trên điện thoại để xem ứng dụng chạy trực tiếp. Để chạy trên Android, sử dụng lệnh npm run android, điều này sẽ khởi động Android emulator hoặc kết nối với thiết bị Android thực tế nếu có. Để chạy trên iOS, sử dụng lệnh npm run ios, tuy nhiên điều này chỉ có thể thực hiện trên máy Mac. Để chạy trên web, sử dụng lệnh npm run web, ứng dụng sẽ mở trong trình duyệt web. Để chạy các test case, sử dụng lệnh npm test để chạy tất cả test một lần, hoặc npm run test:watch để chạy ở chế độ watch, tự động chạy lại test khi có thay đổi trong code.
 
-## 📱 Các màn hình chính
+---
 
-### 1. Home Screen
-- Banner carousel với 3 ảnh
-- Section "Về DaisyDrape" (Galaxy theme)
-- Sản phẩm mới
-- Bộ sưu tập nổi bật
-- Tất cả sản phẩm
-- <img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/032481a4-a10d-41c9-958a-3e557e17f885" />
+## TÀI KHOẢN DEMO
 
-- <img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/3c43fe13-51ad-4d4c-bb13-4d167c40dc5c" />
+Ứng dụng cung cấp hai tài khoản demo cho mục đích kiểm tra và trải nghiệm các tính năng khác nhau. Tài khoản người dùng thường có email là user@example.com và mật khẩu là password123. Tài khoản này cho phép truy cập vào giao diện mua sắm thông thường, bao gồm duyệt sản phẩm, thêm vào giỏ hàng, quản lý danh sách yêu thích, và thực hiện thanh toán. Tài khoản admin có email là admin@example.com và mật khẩu là admin123. Tài khoản này cho phép truy cập vào Admin Dashboard với các tính năng quản lý toàn diện bao gồm xem thống kê doanh số, quản lý đơn hàng, sản phẩm, và người dùng.
 
-<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/4bba0ddb-f2b1-4706-a02e-295a7c7da13c" />
+---
 
-### 2. Product Detail Screen
-- Ảnh sản phẩm
-- Thông tin chi tiết
-- Giá cả
-- Nút thêm vào giỏ/yêu thích
+## HÌNH ẢNH MINH HỌA HỆ THỐNG
 
-### 3. Cart Screen
-- Danh sách sản phẩm trong giỏ
-- Tính tổng giá
-- Nút thanh toán
-<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/8f598585-9c75-419f-ad0f-1e4802127bc4" />
+Giao diện trang chủ của ứng dụng bao gồm header với tên shop DaisyDrape, thanh tìm kiếm, icon giỏ hàng, và icon hồ sơ cá nhân. Dưới header là banner carousel tự động chuyển giữa ba ảnh quảng cáo. Tiếp theo là section "Về DaisyDrape" với thiết kế Galaxy tối trầm, giới thiệu các ưu điểm của cửa hàng như chất lượng cao, giao hàng nhanh, và giá tốt nhất. Phía dưới là danh sách sản phẩm mới được hiển thị trong 3 cột, bộ sưu tập nổi bật trong 2 cột, và tất cả sản phẩm cũng trong 2 cột.
 
-### 4. Profile Screen
-- Thông tin tài khoản
-- Avatar tùy chỉnh
-- Tab: Thông tin, Địa chỉ, Thanh toán, Đơn hàng
-- Lịch sử đơn hàng
-- Đánh giá sản phẩm
-<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/f86ddafc-0e1d-4e4a-aa5f-434b63028e5b" />
-<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/391de8f6-9dbb-433e-9293-2539c2c0b2d9" />
-<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/c30591d6-a5c5-4dee-a85d-f62128ef3ccf" />
-<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/8812424d-dca7-47d3-87c5-0aba2e87bf27" />
+Trang chi tiết sản phẩm hiển thị ảnh sản phẩm lớn ở phía trên, tiếp theo là tên sản phẩm, giá tiền, rating trung bình cùng số lượng đánh giá. Dưới đó là mô tả chi tiết sản phẩm, lựa chọn kích cỡ từ XS đến XXL, và lựa chọn số lượng. Cuối cùng là hai nút chính: "Thêm vào giỏ" và "Thêm vào yêu thích", cùng với danh sách đánh giá từ các khách hàng khác.
 
-### 5. Wishlist Screen
-- Danh sách sản phẩm yêu thích
-- Xóa khỏi yêu thích
-- Thêm vào giỏ hàng
+Trang giỏ hàng hiển thị danh sách các sản phẩm đã thêm vào giỏ, mỗi sản phẩm có ảnh, tên, giá, số lượng, và nút xóa. Ở cuối trang là tổng giá tiền và nút "Thanh toán".
 
-## 🔐 Bảo mật
-- Mật khẩu được mã hóa
-- Xác thực người dùng
-- Dữ liệu cục bộ được lưu an toàn
+Trang hồ sơ cá nhân cho phép người dùng xem và chỉnh sửa avatar, thông tin cá nhân bao gồm tên, email, số điện thoại. Trang này có các tab điều hướng cho thông tin tài khoản, địa chỉ giao hàng, phương thức thanh toán, và lịch sử đơn hàng. Cuối cùng là nút đăng xuất.
 
+Admin Dashboard bao gồm nhiều tab khác nhau. Tab thống kê hiển thị tổng số đơn hàng, tổng doanh thu, số khách hàng mới, sản phẩm bán chạy nhất, và biểu đồ doanh số. Tab đơn hàng hiển thị danh sách tất cả đơn hàng, cho phép lọc theo trạng thái, và hiển thị thông tin mã đơn, khách hàng, ngày đặt, trạng thái, và tổng tiền. Tab sản phẩm hiển thị danh sách sản phẩm, số lượng bán, rating trung bình, cho phép tìm kiếm và sắp xếp. Tab người dùng hiển thị danh sách khách hàng với thông tin tên, email, số điện thoại, ngày tạo tài khoản, số đơn hàng, và tổng tiền chi tiêu.
+
+---
+
+## LINK VIDEO DEMO
+
+Video demo của ứng dụng DaisyDrape có thể được xem tại: https://photos.app.goo.gl/bgUj2CcTdpJyuXH5A
+
+Video demo này trình bày các tính năng chính của ứng dụng bao gồm đăng nhập, duyệt sản phẩm, thêm vào giỏ hàng, thanh toán, xem lịch sử đơn hàng, để lại đánh giá, và truy cập Admin Dashboard. Video có độ dài khoảng 5-10 phút, giúp người xem hiểu rõ cách sử dụng ứng dụng.
+
+---
+
+## LINK ONLINE ĐÃ DEPLOY
+
+Ứng dụng DaisyDrape hiện chưa được deploy lên server online. Tuy nhiên, ứng dụng có thể được chạy trên Expo Go bằng cách quét QR code từ lệnh npm start. Để deploy ứng dụng lên production, có thể sử dụng các dịch vụ như Expo Application Services (EAS) hoặc build APK/IPA để phân phối trên Google Play Store hoặc Apple App Store. Hiện tại, ứng dụng chỉ có thể chạy trên môi trường phát triển cục bộ hoặc thông qua Expo Go.
+
+---
+
+## CÔNG THỨC TÍNH TOÁN VÀ CƠ CHẾ HOẠT ĐỘNG
+
+Ứng dụng sử dụng các công thức tính toán để hiển thị thông tin thống kê cho admin. Tổng doanh thu được tính bằng cách cộng tất cả totalPrice từ tất cả đơn hàng trong AsyncStorage. Doanh thu theo ngày được tính bằng cách cộng tất cả totalPrice từ các đơn hàng có ngày tạo bằng ngày cần tính. Sản phẩm bán chạy nhất được xác định bằng cách tính tổng số lượng bán của mỗi sản phẩm từ tất cả đơn hàng, sau đó sắp xếp theo số lượng bán giảm dần. Rating trung bình của sản phẩm được tính bằng cách cộng tất cả rating từ các review của sản phẩm đó rồi chia cho số lượng review.
+
+Admin Dashboard được cập nhật real-time khi người dùng tạo đơn hàng mới hoặc gửi đánh giá. Ứng dụng sử dụng useFocusEffect để tự động tải lại dữ liệu mỗi khi quay lại Admin Dashboard. Bảo mật được đảm bảo bằng cách chỉ cho phép người dùng có role === 'admin' truy cập Admin Dashboard. Nếu người dùng không phải admin, họ sẽ được điều hướng về BuyerTabs, đó là giao diện dành cho người dùng thường.
+
+---
+
+## KẾT LUẬN
+
+DaisyDrape là một ứng dụng thương mại điện tử hoàn chỉnh được xây dựng bằng React Native, cung cấp trải nghiệm mua sắm thân thiện cho người dùng và công cụ quản lý mạnh mẽ cho admin. Ứng dụng sử dụng lưu trữ cục bộ để đảm bảo hiệu suất cao và có thể dễ dàng mở rộng với backend thực tế trong tương lai. Nhóm phát triển đã hoàn thành tất cả các tính năng chính và ứng dụng sẵn sàng để sử dụng. Trong tương lai, dự án có kế hoạch tích hợp backend thực tế, thanh toán trực tuyến, thông báo push, chat hỗ trợ khách hàng, và hỗ trợ đa ngôn ngữ.
+
+---
