@@ -67,6 +67,8 @@ Backend API được xây dựng bằng Node.js với Express.js phiên bản 4.
 ---
 
 ## HÌNH ẢNH MINH HỌA HỆ THỐNG
+<img width="1024" height="451" alt="image" src="https://github.com/user-attachments/assets/10a74273-4e51-4938-a3fa-4b5c87ce1010" />
+
 
 Giao diện trang chủ của ứng dụng bao gồm header với tên shop DaisyDrape, thanh tìm kiếm, icon giỏ hàng, và icon hồ sơ cá nhân. Dưới header là banner carousel tự động chuyển giữa ba ảnh quảng cáo. Tiếp theo là section "Về DaisyDrape" với thiết kế Galaxy tối trầm, giới thiệu các ưu điểm của cửa hàng như chất lượng cao, giao hàng nhanh, và giá tốt nhất. Phía dưới là danh sách sản phẩm mới được hiển thị trong 3 cột, bộ sưu tập nổi bật trong 2 cột, và tất cả sản phẩm cũng trong 2 cột.
 
